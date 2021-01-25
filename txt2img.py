@@ -567,7 +567,7 @@ class Txt2Img:
         for i in text:
             s = re.sub(r"(.{31})", "\\1" + r'\\n', i)
             m += s + r'\n'
-            return m
+        return m
 
 def main():
     parser = optparse.OptionParser(

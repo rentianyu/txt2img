@@ -559,6 +559,15 @@ class Txt2Img:
             out_img.save(img_save_path)
             print(f"generated images path: {img_save_path}")
 
+    def text_add_n(text):
+        # str -> list
+        text = text.split("\n")
+        # add \n
+        m = ''
+        for i in text:
+            s = re.sub(r"(.{31})", "\\1" + r'\\n', i)
+            m += s + r'\n'
+            return m
 
 def main():
     parser = optparse.OptionParser(
@@ -597,7 +606,6 @@ def main():
 
     if not pic_style:
         pic_style = 1
-
     if text:
         if not img_file:
             img_file = "assets/sundayday.jpg"
@@ -606,6 +614,7 @@ def main():
         img = Txt2Img(img_file, out_img_name, font_family, save_dir="img")
 
         if pic_style == 1:
+            text = Txt2Img.text_add_n(text)
             img.save1(user, text.replace("\\n", "\n"))
         elif pic_style == 2:
             img.save2(user, text.replace("\\n", "\n"))
@@ -621,6 +630,7 @@ def main():
             img.save7(text.replace("\\n", "\n"))
     else:
         print("input -h/--help option for help")
+
 
 
 if __name__ == "__main__":

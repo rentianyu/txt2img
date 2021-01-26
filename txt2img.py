@@ -11,7 +11,6 @@
 
 
 import os
-import re
 import math
 import optparse
 import textwrap
@@ -559,15 +558,17 @@ class Txt2Img:
             out_img.save(img_save_path)
             print(f"generated images path: {img_save_path}")
 
-    def text_add_n(text):
-        # str -> list
+    def text_add_n(text,num):
         text = text.split("\n")
-        # add \n
+        text = "".join(text)
         m = ''
-        for i in text:
-            s = re.sub(r"(.{31})", "\\1" + r'\\n', i)
-            m += s + r'\n'
+        for i in range(len(text)):
+            m+=text[i]
+            if (i+1) % num == 0:
+                m+='\n'
         return m
+
+
 
 def main():
     parser = optparse.OptionParser(
@@ -614,7 +615,7 @@ def main():
         img = Txt2Img(img_file, out_img_name, font_family, save_dir="img")
 
         if pic_style == 1:
-            text = Txt2Img.text_add_n(text)
+            text = Txt2Img.text_add_n(text, 31)
             img.save1(user, text.replace("\\n", "\n"))
         elif pic_style == 2:
             img.save2(user, text.replace("\\n", "\n"))
